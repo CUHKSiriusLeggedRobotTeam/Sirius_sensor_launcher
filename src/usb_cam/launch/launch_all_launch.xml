@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<launch>
+  <arg name="rs_front_sn" default="_213222078719"/>
+  <arg name="rs_rear_sn" default="_151222077108"/>
+  
+  <include file="$(find-pkg-share realsense2_camera)/launch/rs_multi_camera_launch.py">
+    <arg name="camera_namespace1" value="front" />
+    <arg name="serial_no1" value="$(var rs_front_sn)" />
+    <arg name="enable_color1" value="false" />
+    <arg name="camera_namespace2" value="rear" />
+    <arg name="serial_no2" value="$(var rs_rear_sn)" />
+    <arg name="enable_color2" value="false" />
+  </include>
+  
+  <include file="$(find-pkg-share usb_cam)/launch/multi_camera_launch.py"/>
+
+  <include file="$(find-pkg-share livox_ros_driver2)/launch/vanilla_MID360_launch.py"/>
+  
+</launch>

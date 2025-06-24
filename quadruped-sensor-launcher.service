@@ -1,0 +1,11 @@
+[Unit]
+Description=sensor-launcer service for quadruped
+After=network.target
+
+[Service]
+Type=simple
+User=cuhk
+ExecStart=/home/cuhk/sensor-launcher/script/autolaunch-record.sh
+
+[Install]
+WantedBy=multi-user.target
