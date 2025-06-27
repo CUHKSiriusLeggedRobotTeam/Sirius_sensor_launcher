@@ -5,7 +5,7 @@ After=network.target
 [Service]
 Type=simple
 User=cuhk
-ExecStart=/home/cuhk/sensor-launcher/script/autolaunch-record.sh
+ExecStart=/home/cuhk/sensor-launcher/script/autolaunch.sh
 
 [Install]
 WantedBy=multi-user.target
