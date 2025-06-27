@@ -13,10 +13,10 @@ This configuration is tested on Ubuntu 22.04 with ROS2 Humble. Before using, ple
 ## Download & Install
 **1. Download this repo by**
 ``` shell
-git 
+git https://github.com/CUHKSiriusLeggedRobotTeam/sensor-launcher-beta.git
 ```
-**
-2. Build ROS2 project**
+
+**2. Build ROS2 project**
 ```
 source /opt/ros/humble/setup.bash
 cd sensor_launcher
