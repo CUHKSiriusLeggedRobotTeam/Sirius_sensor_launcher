@@ -31,6 +31,9 @@
 #include <string>
 #include <vector>
 #include <filesystem>
+#include <sensor_msgs/msg/image.hpp>
+#include <sensor_msgs/image_encodings.hpp>
+#include <cv_bridge/cv_bridge.h>
 #include "usb_cam/usb_cam_node.hpp"
 #include "usb_cam/utils.hpp"
 
@@ -83,6 +86,7 @@ UsbCamNode::UsbCamNode(const rclcpp::NodeOptions & node_options)
   this->declare_parameter("exposure", 100);
   this->declare_parameter("autofocus", false);
   this->declare_parameter("focus", -1);  // 0-255, -1 "leave alone"
+  this->declare_parameter("flip", false);  // true or false
 
   get_params();
   init();
@@ -231,7 +235,7 @@ void UsbCamNode::get_params()
       "camera_name", "camera_info_url", "frame_id", "framerate", "image_height", "image_width",
       "io_method", "pixel_format", "av_device_format", "video_device", "brightness", "contrast",
       "saturation", "sharpness", "gain", "auto_white_balance", "white_balance", "autoexposure",
-      "exposure", "autofocus", "focus"
+      "exposure", "autofocus", "focus", "flip"
     }
   );
 
@@ -285,6 +289,8 @@ void UsbCamNode::assign_params(const std::vector<rclcpp::Parameter> & parameters
       m_parameters.autofocus = parameter.as_bool();
     } else if (parameter.get_name() == "focus") {
       m_parameters.focus = parameter.as_int();
+    } else if (parameter.get_name() == "flip") {
+      m_parameters.flip = parameter.as_bool();
     } else {
       RCLCPP_WARN(this->get_logger(), "Invalid parameter name: %s", parameter.get_name().c_str());
     }
@@ -384,6 +390,17 @@ bool UsbCamNode::take_and_send_image()
 
   *m_camera_info_msg = m_camera_info->getCameraInfo();
   m_camera_info_msg->header = m_image_msg->header;
+
+  // DEBUG: Add flip
+  if (m_parameters.flip == true) {
+    cv_bridge::CvImagePtr cv_ptr = cv_bridge::toCvCopy(*m_image_msg, m_image_msg->encoding);
+    cv::flip(cv_ptr->image, cv_ptr->image, -1);
+    sensor_msgs::msg::Image flipped_image_msg = *(cv_ptr->toImageMsg());
+    flipped_image_msg.header = m_image_msg->header;
+    flipped_image_msg.encoding = m_image_msg->encoding;
+    m_image_msg = std::move(std::make_unique<sensor_msgs::msg::Image>(flipped_image_msg)); // move between uniquePtr
+  }
+
   m_image_publisher->publish(*m_image_msg, *m_camera_info_msg);
   return true;
 }
@@ -405,6 +422,16 @@ bool UsbCamNode::take_and_send_image_mjpeg()
 
   *m_camera_info_msg = m_camera_info->getCameraInfo();
   m_camera_info_msg->header = m_compressed_img_msg->header;
+
+  // DEBUG: Add flip
+  if (m_parameters.flip == true) {
+    cv_bridge::CvImagePtr cv_ptr = cv_bridge::toCvCopy(*m_compressed_img_msg, "bgr8");
+    cv::flip(cv_ptr->image, cv_ptr->image, -1);
+    sensor_msgs::msg::CompressedImage flipped_image_msg = *(cv_ptr->toCompressedImageMsg());
+    flipped_image_msg.header = m_compressed_img_msg->header;
+    flipped_image_msg.format = m_compressed_img_msg->format;
+    m_compressed_img_msg = std::move(std::make_unique<sensor_msgs::msg::CompressedImage>(flipped_image_msg)); // move between uniquePtr
+  }
 
   m_compressed_image_publisher->publish(*m_compressed_img_msg);
   m_compressed_cam_info_publisher->publish(*m_camera_info_msg);
