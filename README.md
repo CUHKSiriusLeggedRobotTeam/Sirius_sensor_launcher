@@ -2,7 +2,8 @@
 [中文版](./README-CN.md) | [English](./README.md)
 
 ## Prerequisite
-> [!Note] The following dependencies have been locally deployed.
+> [!Note]
+> The following dependencies have been locally deployed.
 
 This configuration is tested on Ubuntu 22.04 with ROS2 Humble. Before using, please make sure that the following environments are prepared:
 1. Ubuntu 22.04
