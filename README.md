@@ -54,6 +54,7 @@ sudo systemctl stop quadruped-sensor-launcher.service # stop all sensors manuall
 
 **6. Camera Configuration**
 - To change the signal format and resolution of cameras, please modify the file located at `<sensor-launcher-dir>/src/usb_cam/config/param_<?>.yaml`
+- Note that the fisheye camera seated at the rear requires ros parameter `flip = true` to flip 180 degrees for a regular view
 
 **7. Lidar IP Configuration**
 - To accommodate new IP of lidar (the IP of lidar should be changed beforehead), please modify the file located at `<sensor-launcher-dir>/src/livox_ros_driver2/config/MID360_config.json`

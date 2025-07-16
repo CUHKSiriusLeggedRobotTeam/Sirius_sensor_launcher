@@ -54,6 +54,7 @@ sudo systemctl stop quadruped-sensor-launcher.service # stop all sensors manuall
 
 **6. 配置鱼眼相机**
 - 若需要修改鱼眼相机的参数，例如信号格式/分辨率，您可以修改如下文件中对应关键字的值 `<sensor-launcher-dir>/src/usb_cam/config/param_<?>.yaml`
+- 需要注意，正后方的鱼眼相机需要设置 `flip = true` 来进行180度翻转以得到正常视角
 
 **7. 配置雷达 IP**
 - 为了使得软件适应新的雷达IP (在此之前，需要先修改雷达的IP)，您可以修改如下文件中对应关键字的值 `<sensor-launcher-dir>/src/livox_ros_driver2/config/MID360_config.json`
