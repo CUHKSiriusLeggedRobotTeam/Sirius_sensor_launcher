@@ -14,7 +14,7 @@ This configuration is tested on Ubuntu 22.04 with ROS2 Humble. Before using, ple
 ## Download & Install
 **1. Download this repo by**
 ``` shell
-git https://github.com/CUHKSiriusLeggedRobotTeam/sensor-launcher-beta.git
+git https://github.com/CUHKSiriusLeggedRobotTeam/Sirius_sensor_launcher.git
 ```
 
 **2. Build ROS2 project**

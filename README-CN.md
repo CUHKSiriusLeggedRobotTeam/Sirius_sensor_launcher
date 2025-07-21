@@ -14,7 +14,7 @@
 ## 下载与安装
 **1. 下载本仓库**
 ``` shell
-git https://github.com/CUHKSiriusLeggedRobotTeam/sensor-launcher-beta.git 
+git https://github.com/CUHKSiriusLeggedRobotTeam/Sirius_sensor_launcher.git
 ```
 
 **2. 在ROS2环境下编译项目文件**
